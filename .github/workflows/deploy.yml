@@ -1,33 +1,31 @@
-name: Deploy BlomsterWebshop-app
- 
+name: Deploy to Vercel
+
 on:
   push:
     branches:
-      - main  # Use main branch instead of gh-pages
- 
+      - main  # Change this if your default branch is different (like 'master')
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
- 
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          repository: arein1989/BlomsterWebshop-app
- 
-      - name: Install Dependencies
-        run: npm install || echo "No dependencies to install"
- 
-     # - name: Compile SCSS to CSS (if applicable)
-      #  run: npm run build-css || echo "No SCSS compilation needed"
- 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
- 
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-            path: BlomsterWebshop-app/
- 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+          node-version: 20  # Match your local Node.js version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React.js app
+        run: npm run build
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.Blomsterwebshop }}  # Add this secret in GitHub repo settings
+        run: npx vercel --prod --token $VERCEL_TOKEN
