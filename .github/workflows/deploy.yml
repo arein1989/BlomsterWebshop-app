@@ -27,5 +27,5 @@ jobs:
 
       - name: Deploy to Vercel
         env:
-          VERCEL_TOKEN: ${{ secrets.Blomsterwebshop }}  # Add this secret in GitHub repo settings
+          VERCEL_TOKEN: ${{ secrets.BLOMSTERWEBSHOP }}  # Add this secret in GitHub repo settings
         run: npx vercel --prod --token $VERCEL_TOKEN
